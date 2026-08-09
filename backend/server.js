@@ -69,7 +69,13 @@ app.delete("/tasks/:id", (req, res) => {
 
 });
 
+app.delete("/tasks", (req, res) => {
+  tasks = [];
+  res.json({ message: "All tasks deleted" });
+});
+
 const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });

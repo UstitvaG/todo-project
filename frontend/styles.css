@@ -1,5 +1,3 @@
-/* Task list items are created in script.js as plain <li> elements,
-   so they're styled here rather than with Tailwind utility classes. */
 
 #myTasksList {
   list-style: none;
@@ -38,8 +36,6 @@
   background: #f3f4f6;
 }
 
-/* Completed task color is set inline by script.js in light mode (green).
-   We override it in dark mode so it stays readable. */
 html.dark #myTasksList li {
   background: #1f2937;
   border-color: #374151;

@@ -2,26 +2,40 @@ let todo = [];
 
 //add items to array
 
-function add() {
+async function add() {
   let inputField = document.getElementById("myInput");
 
   let taskInput = inputField.value.trim();
   
   if(taskInput == ""){
     alert("Add your task first");
+    return;
   }
-   else if(!todo.some(task => task.text.toLowerCase() === taskInput.toLowerCase())) {
-    todo.push({
-      text: taskInput,
-      completed: false,
-    });
-  
-    localStorage.setItem("myItems", JSON.stringify(todo));
-
-    inputField.value = "";
-  } else {
+    if (todo.some(task =>
+      task.text.toLowerCase() === taskInput.toLowerCase())) {
     alert("Task already exists!");
+    return;
   }
+
+await fetch("http://localhost:3000/tasks", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    text: taskInput
+  })
+});
+
+inputField.value = "";
+
+  await loadTasks();
+}
+
+async function loadTasks(){
+  const response = await fetch("https://localhost:3000/tasks");
+  
+  todo = await response.json();
 
   renderTask();
 }
@@ -44,6 +58,7 @@ function renderTask() {
 
   let completedCounter = document.getElementById("completedCounter");
 
+  
   let completedTasks = todo.filter((task) => task.completed).length;
 
   completedCounter.textContent = completedTasks;
@@ -68,36 +83,59 @@ function renderTask() {
       newItem.style.textDecoration = "line-through";
       newItem.style.color = "green";
     }
-    checkbox.addEventListener("click", () => {
-      todo[i].completed = checkbox.checked;
+    checkbox.addEventListener("click", async () => {
 
-      if (checkbox.checked) {
-        newItem.style.textDecoration = "line-through";
-        newItem.style.color = "green";
-      } else {
-        newItem.style.textDecoration = "none";
-        newItem.style.color = "black";
-      }
-      localStorage.setItem("myItems", JSON.stringify(todo));
+  await fetch(
+    `http://localhost:3000/tasks/${todo[i].id}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        text: todo[i].text,
+        completed: checkbox.checked
+      })
+    }
+  );
 
-      renderTask();
-    });
+  await loadTasks();
+});
+
     // Edit button
     let edit = document.createElement("button");
-    edit.style.marginLeft = "10px";
-    edit.textContent = "Edit✏️";
+edit.style.marginLeft = "10px";
+edit.textContent = "Edit✏️";
+    edit.addEventListener("click", async () => {
 
-    edit.addEventListener("click", () => {
-      let dlgBox = prompt("Enter a new task", todo[i].text);
+  let dlgBox = prompt(
+    "Enter a new task",
+    todo[i].text
+  );
 
-      if (dlgBox !== null && dlgBox.trim() !== "") {
-        todo[i].text = dlgBox.trim();
+  if (
+    dlgBox !== null &&
+    dlgBox.trim() !== ""
+  ) {
 
-        localStorage.setItem("myItems", JSON.stringify(todo));
-
-        renderTask();
+    await fetch(
+      `http://localhost:3000/tasks/${todo[i].id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          text: dlgBox.trim(),
+          completed: todo[i].completed
+        })
       }
-    });
+    );
+
+    await loadTasks();
+  }
+
+});
 
     // Delete button
     let dlt = document.createElement("button");
@@ -118,30 +156,39 @@ function renderTask() {
 
 // Delete items
 
-function deleteTask(index) {
-  todo.splice(index, 1);
+async function deleteTask(index) {
 
-  localStorage.setItem("myItems", JSON.stringify(todo));
+  await fetch(
+     `http://localhost:3000/tasks/${todo[index].id}`,
+     {
+      method: "DELETE"
+     }
+  );
+
+
+  await loadTasks();
+}
+async function clearAll() {
+
+  await fetch("http://localhost:3000/tasks", {
+    method: "DELETE"
+  });
+
+  await loadTasks();
+}
+
+//Load saved data
+async function loadTasks() {
+
+  const response =
+    await fetch("http://localhost:3000/tasks");
+
+  todo = await response.json();
 
   renderTask();
 }
 
-function clearAll() {
-  let confirmDelete = confirm("Delete all tasks?");
-  if (confirmDelete) {
-    todo = [];
-    localStorage.removeItem("myItems");
-
-    renderTask();
-  }
-}
-//Load saved data
-
-let saved = localStorage.getItem("myItems");
-if (saved !== null) {
-  todo = JSON.parse(saved);
-}
-renderTask();
+loadTasks();
 
 //dark mode
 
