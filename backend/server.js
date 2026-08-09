@@ -9,17 +9,15 @@ app.use(express.json());
 let tasks = [];
 
 app.get("/", (req, res) => {
-  res.send("Backend Running");
+    res.send("Backend Running");
 });
 
-// add tasks
-
+// Get all tasks
 app.get("/tasks", (req, res) => {
-  res.json(tasks);
+    res.json(tasks);
 });
 
-// create tasks
-
+// Create task
 app.post("/tasks", (req, res) => {
     const { text } = req.body;
 
@@ -27,24 +25,23 @@ app.post("/tasks", (req, res) => {
         id: Date.now(),
         text: text,
         completed: false
-    }
+    };
 
     tasks.push(newTask);
 
     res.status(201).json(newTask);
 });
 
-// update task
-
+// Update task
 app.put("/tasks/:id", (req, res) => {
     const id = Number(req.params.id);
 
     const { text, completed } = req.body;
 
-    const task = tasks.find (task => task.id === id);
+    const task = tasks.find(task => task.id === id);
 
-    if(!task){
-       return res.status(404).json({
+    if (!task) {
+        return res.status(404).json({
             message: "Task not found"
         });
     }
@@ -53,12 +50,10 @@ app.put("/tasks/:id", (req, res) => {
     task.completed = completed;
 
     res.json(task);
-})
+});
 
-//delete task
-
+// Delete one task
 app.delete("/tasks/:id", (req, res) => {
-    
     const id = Number(req.params.id);
 
     tasks = tasks.filter(task => task.id !== id);
@@ -66,16 +61,20 @@ app.delete("/tasks/:id", (req, res) => {
     res.json({
         message: "Task deleted"
     });
-
 });
 
+// Delete all tasks
 app.delete("/tasks", (req, res) => {
-  tasks = [];
-  res.json({ message: "All tasks deleted" });
+    tasks = [];
+
+    res.json({
+        message: "All tasks deleted"
+    });
 });
 
+// Start server
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Server running on port ${PORT}`);
 });
