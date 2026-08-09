@@ -1,0 +1,32 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Todo</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h1>My Todos📋</h1>
+    <b>
+      Total Tasks🔢: <span id="counter">0</span>
+    </b>
+    <br />
+
+    <b>
+      Completed Tasks: <span id="completedCounter">0</span>
+    </b>
+    <input type="text" placeholder="Your upcoming tasks" id="myInput" />
+
+    <button type="button" onclick="add()">
+      Add task
+    </button>
+    <button type="button" onclick="clearAll()">
+      Delete All
+    </button>
+
+    <ul id="myTasksList"></ul>
+    <hr />
+    <p>Mady by Astitva with 💗</p>
+    <script src="script.js"></script>
+  </body>
+</html>
