@@ -142,3 +142,30 @@ if (saved !== null) {
   todo = JSON.parse(saved);
 }
 renderTask();
+
+//dark mode
+
+const themeToggle = document.getElementById("themeToggle");
+const themeIcon = document.getElementById("themeIcon");
+ 
+function applyTheme(isDark) {
+  document.documentElement.classList.toggle("dark", isDark);
+  themeIcon.textContent = isDark ? "☀️" : "🌙";
+  localStorage.setItem("theme", isDark ? "dark" : "light");
+}
+ 
+function toggleTheme() {
+  const isDark = !document.documentElement.classList.contains("dark");
+  applyTheme(isDark);
+}
+ 
+themeToggle.addEventListener("click", toggleTheme);
+ 
+// Use saved theme if present, otherwise fall back to the OS preference
+let savedTheme = localStorage.getItem("theme");
+if (savedTheme !== null) {
+  applyTheme(savedTheme === "dark");
+} else {
+  applyTheme(window.matchMedia("(prefers-color-scheme: dark)").matches);
+}
+ 
