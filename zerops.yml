@@ -13,7 +13,7 @@ zerops:
     run:
       base: nodejs@24
 
-      start: cd backend && npm start
+      start: node backend/server.js
 
       ports:
         - port: 3000
