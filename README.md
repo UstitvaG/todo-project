@@ -4,9 +4,10 @@ A full-stack Todo application built with modern web technologies.
 
 ## 🔗 Live Demo
 
-🌐 Frontend: [Live](https://todoing-chi.vercel.app/)
+🌐 Frontend: <a href="https://todoing-chi.vercel.app/" target="_blank" rel="noopener noreferrer">
+  Live</a>
 
-⚡ Backend API: [Live](https://nodejs-2d76-3000.prg1.zerops.app)
+⚡ Backend API: <a href="https://nodejs-2d76-3000.prg1.zerops.app" target="_blank" rel="noonpener noreferrer"> Live</a>
 
 ## 🛠️ Tech Stack
 
