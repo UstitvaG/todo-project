@@ -17,7 +17,7 @@ async function add() {
     return;
   }
 
-await fetch("http://localhost:3000/tasks", {
+await fetch("https://nodejs-2d76-3000.prg1.zerops.app/tasks", {
   method: "POST",
   headers: {
     "Content-Type": "application/json"
@@ -33,7 +33,7 @@ inputField.value = "";
 }
 
 async function loadTasks(){
-  const response = await fetch("https://localhost:3000/tasks");
+  const response = await fetch("https://nodejs-2d76-3000.prg1.zerops.app/tasks");
   
   todo = await response.json();
 
@@ -86,7 +86,7 @@ function renderTask() {
     checkbox.addEventListener("click", async () => {
 
   await fetch(
-    `http://localhost:3000/tasks/${todo[i].id}`,
+    `https://nodejs-2d76-3000.prg1.zerops.app/tasks/${todo[i].id}`,
     {
       method: "PUT",
       headers: {
@@ -119,7 +119,7 @@ edit.textContent = "Edit✏️";
   ) {
 
     await fetch(
-      `http://localhost:3000/tasks/${todo[i].id}`,
+      `https://nodejs-2d76-3000.prg1.zerops.app/tasks/${todo[i].id}`,
       {
         method: "PUT",
         headers: {
@@ -159,7 +159,7 @@ edit.textContent = "Edit✏️";
 async function deleteTask(index) {
 
   await fetch(
-     `http://localhost:3000/tasks/${todo[index].id}`,
+     `https://nodejs-2d76-3000.prg1.zerops.app/tasks/${todo[index].id}`,
      {
       method: "DELETE"
      }
@@ -170,7 +170,7 @@ async function deleteTask(index) {
 }
 async function clearAll() {
 
-  await fetch("http://localhost:3000/tasks", {
+  await fetch("https://nodejs-2d76-3000.prg1.zerops.app/tasks", {
     method: "DELETE"
   });
 
@@ -181,7 +181,7 @@ async function clearAll() {
 async function loadTasks() {
 
   const response =
-    await fetch("http://localhost:3000/tasks");
+    await fetch("https://nodejs-2d76-3000.prg1.zerops.app/tasks");
 
   todo = await response.json();
 
